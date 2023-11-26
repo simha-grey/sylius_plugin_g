@@ -5,9 +5,10 @@ namespace App\Entity;
 use App\Entity\Product\Product;
 use App\Repository\ProductStockRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Sylius\Component\Resource\Model\ResourceInterface;
 
 #[ORM\Entity(repositoryClass: ProductStockRepository::class)]
-class ProductStock
+class ProductStock implements ResourceInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

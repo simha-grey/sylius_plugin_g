@@ -3,18 +3,19 @@
 namespace App\Repository;
 
 use App\Entity\ProductStock;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+//use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 /**
- * @extends ServiceEntityRepository<ProductStock>
+ * @extends EntityRepository<ProductStock>
  *
  * @method ProductStock|null find($id, $lockMode = null, $lockVersion = null)
  * @method ProductStock|null findOneBy(array $criteria, array $orderBy = null)
  * @method ProductStock[]    findAll()
  * @method ProductStock[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductStockRepository extends ServiceEntityRepository
+class ProductStockRepository extends EntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
