@@ -1,0 +1,4 @@
+suites:
+    main:
+        namespace: Roma\SyliusProductVariantPlugin
+        psr4_prefix: Roma\SyliusProductVariantPlugin
