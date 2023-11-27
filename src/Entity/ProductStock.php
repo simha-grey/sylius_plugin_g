@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace Roma\SyliusProductVariantPlugin\Entity;
 
 use App\Entity\Product\Product;
-use App\Repository\ProductStockRepository;
+use Roma\SyliusProductVariantPlugin\Repository\ProductStockRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 

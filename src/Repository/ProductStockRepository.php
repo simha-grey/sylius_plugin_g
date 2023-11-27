@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Roma\SyliusProductVariantPlugin\Repository;
 
-use App\Entity\ProductStock;
-//use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Roma\SyliusProductVariantPlugin\Entity\ProductStock;
 use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
