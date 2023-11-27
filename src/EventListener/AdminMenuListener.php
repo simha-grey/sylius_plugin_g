@@ -9,8 +9,8 @@ final class AdminMenuListener
     {
         $menu = $event->getMenu();
 
-        $newSubmenu = $menu->addChild('new')->setLabel('Custom Admin Submenu');
+        $newSubmenu = $menu->addChild('new')->setLabel('Roman Submenu');
 
-        $newSubmenu->addChild('new-subitem')->setLabel('Custom Admin Menu Item');
+        $newSubmenu->addChild('new-subitem')->setLabel('Product Managment');
     }
 }
