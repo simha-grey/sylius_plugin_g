@@ -1,0 +1,4 @@
+services:
+    Roma\SyliusProductVariantPlugin\EventListener\AdminMenuListener:
+        tags:
+            - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }

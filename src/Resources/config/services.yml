@@ -1,0 +1,2 @@
+imports:
+    - { resource: services/event_listener.yml }

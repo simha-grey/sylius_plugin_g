@@ -1,0 +1,2 @@
+imports:
+    - { resource: "@RomaSyliusProductVariantPlugin/Resources/config/services.yml" }
