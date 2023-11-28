@@ -2,6 +2,6 @@
     <h2>Product Stock</h2>
 
     {% for d in data %}
-        <p>{{ d.id }} {{ d.product }} {{ d.stockStatus }} {{ d.restockDate }}</p>
+        <p>{{ d.id }} {{ d.product }} {{ d.stockStatus }} {{ d.restockDate|format_datetime('medium', 'short') }}</p>
     {% endfor %}
 {% endblock %}
