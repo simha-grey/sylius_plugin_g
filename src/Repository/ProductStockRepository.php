@@ -3,7 +3,7 @@
 namespace Roma\SyliusProductVariantPlugin\Repository;
 
 use Roma\SyliusProductVariantPlugin\Entity\ProductStock;
-use Doctrine\Persistence\ManagerRegistry;
+//use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -20,24 +20,37 @@ class ProductStockRepository extends EntityRepository
     public const PAGINATOR_PER_PAGE = 5;
     public function getProductStock(int $offset, int $status): Paginator
     {
+        //TODO createQuery do not work with RIGHT JOIN. For LEFT JOIN I must inject PRODUCT class but I've got strange error
 
         $where_closure =  ' WHERE TRUE '  . !empty($status) ? ' AND ps.stockStatus = :stockStatus ' : ' ';
-        $query = $this->getEntityManager()->createQuery(
-            'SELECT ps, p
-            FROM Roma\SyliusProductVariantPlugin\Entity\ProductStock ps
-            RIGHT JOIN ps.product p
-            '.$where_closure
-        )->setMaxResults(self::PAGINATOR_PER_PAGE)
-        ->setFirstResult($offset);
+        $query = "
+        SELECT p.*, ps.*
+        FROM sylius_product p
+        LEFT JOIN ProductSock ps on ps.product_id = p.id
+        $where_closure
+        OFFSET $offset
+        LIMIT self::PAGINATOR_PER_PAGE";
 
-        if(!empty($status))$query->setParameter('stockStatus', $status);
+        $em = $this->getDoctrine()->getManager();
+        $stmt = $em->getConnection()->prepare($query);
+        if(!empty($status))$stmt->bindvalues('stockStatus', $status);
 
-        return new Paginator($query);
+        $stmt->execute();
+
+//        $query = $this->getEntityManager()->createQuery(
+//            'SELECT ps, p
+//            FROM Roma\SyliusProductVariantPlugin\Entity\ProductStock ps
+//            RIGHT JOIN ps.product p
+//            '.$where_closure
+//        )->setMaxResults(self::PAGINATOR_PER_PAGE)
+//        ->setFirstResult($offset);
+
+        return new Paginator($stmt);
     }
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, ProductStock::class);
-    }
+//    public function __construct(ManagerRegistry $registry)
+//    {
+//        parent::__construct($registry, ProductStock::class);
+//    }
 //
 //    public function add(ProductStock $entity, bool $flush = false): void
 //    {
