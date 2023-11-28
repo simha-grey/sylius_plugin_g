@@ -9,8 +9,11 @@ final class AdminMenuListener
     {
         $menu = $event->getMenu();
 
-        $newSubmenu = $menu->addChild('new')->setLabel('Roman Submenu');
+        $newSubmenu = $menu->addChild('roma_submenu')->setLabel('Roma Submenu');
 
-        $newSubmenu->addChild('new-subitem')->setLabel('Product Managment');
+        $newSubmenu->addChild('product_management_subitem',[
+            'route' => 'roma_product_management_show'
+            ])
+            ->setLabel('Product Management');
     }
 }

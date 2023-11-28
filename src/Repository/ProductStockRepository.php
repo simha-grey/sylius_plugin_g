@@ -5,6 +5,7 @@ namespace Roma\SyliusProductVariantPlugin\Repository;
 use Roma\SyliusProductVariantPlugin\Entity\ProductStock;
 //use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * @extends EntityRepository<ProductStock>
@@ -16,6 +17,23 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
  */
 class ProductStockRepository extends EntityRepository
 {
+    public const PAGINATOR_PER_PAGE = 5;
+    public function getProductStock(int $offset, int $status): Paginator
+    {
+
+        $where_closure = !empty($status) ? ' ps.stockStatus = :stockStatus ' : ' ';
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT ps, p
+            FROM Roma\SyliusProductVariantPlugin\Entity\ProductStock ps
+            INNER JOIN ps.product p
+            '.$where_closure
+        )->setMaxResults(self::PAGINATOR_PER_PAGE)
+        ->setFirstResult($offset);
+
+        if(!empty($status))$query->setParameter('stockStatus', $status);
+
+        return new Paginator($query);
+    }
 //    public function __construct(ManagerRegistry $registry)
 //    {
 //        parent::__construct($registry, ProductStock::class);

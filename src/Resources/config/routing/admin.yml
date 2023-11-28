@@ -1,0 +1,7 @@
+roma_product_management_show:
+    path: /product_management/show
+    methods: [GET]
+    defaults:
+        _controller: roma.controller.product_management::show
+        _sylius:
+            template: "@RomaSyliusProductVariantPlugin/src/Templates/ProductManagement/show.html.twig"

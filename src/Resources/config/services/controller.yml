@@ -1,0 +1,5 @@
+services:
+    roma.controller.product_management:
+        class: Roma\SyliusProductVariantPlugin\Controller\ProductManagementController
+        autowire: true
+        tags: ['controller.service_arguments']

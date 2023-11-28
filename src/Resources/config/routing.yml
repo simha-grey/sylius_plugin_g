@@ -1,0 +1,4 @@
+roma_sylius_product_variant_plugin_admin:
+    resource: "@RomaSyliusProductVariantPlugin/src/Resources/config/routing/admin.yml"
+    prefix: '/%sylius_admin.path_name%'
+
