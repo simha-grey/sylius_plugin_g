@@ -20,32 +20,19 @@ class ProductStockRepository extends EntityRepository
     public const PAGINATOR_PER_PAGE = 5;
     public function getProductStock(int $offset, int $status): Paginator
     {
-        //TODO createQuery do not work with RIGHT JOIN. For LEFT JOIN I must inject PRODUCT class but I've got strange error
 
         $where_closure =  ' WHERE TRUE '  . !empty($status) ? ' AND ps.stockStatus = :stockStatus ' : ' ';
-        $query = "
-        SELECT p.*, ps.*
-        FROM sylius_product p
-        LEFT JOIN ProductSock ps on ps.product_id = p.id
-        $where_closure
-        OFFSET $offset
-        LIMIT self::PAGINATOR_PER_PAGE";
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT ps, p
+            FROM App\Entity\Product\Product p
+            LEFT JOIN Roma\SyliusProductVariantPlugin\Entity\ProductStock ps
+            '.$where_closure
+        )->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset);
 
-        $em = $this->getDoctrine()->getManager();
-        $stmt = $em->getConnection()->prepare($query);
-        if(!empty($status))$stmt->bindvalues('stockStatus', $status);
+        if(!empty($status))$query->setParameter('stockStatus', $status);
 
-        $stmt->execute();
-
-//        $query = $this->getEntityManager()->createQuery(
-//            'SELECT ps, p
-//            FROM Roma\SyliusProductVariantPlugin\Entity\ProductStock ps
-//            RIGHT JOIN ps.product p
-//            '.$where_closure
-//        )->setMaxResults(self::PAGINATOR_PER_PAGE)
-//        ->setFirstResult($offset);
-
-        return new Paginator($stmt);
+        return new Paginator($query);
     }
 //    public function __construct(ManagerRegistry $registry)
 //    {
