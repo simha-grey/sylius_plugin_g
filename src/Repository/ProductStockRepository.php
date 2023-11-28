@@ -21,17 +21,18 @@ class ProductStockRepository extends EntityRepository
     public function getProductStock(int $offset, int $status): Paginator
     {
 
-        $where_closure =  ' WHERE TRUE '  .( !empty($status) ? ' AND ps.stockStatus = :stockStatus ' : ' ');
         $query = $this->getEntityManager()->createQuery(
-            'SELECT ps, p
-            FROM App\Entity\Product\Product p
-            LEFT JOIN Roma\SyliusProductVariantPlugin\Entity\ProductStock ps
-            '.$where_closure
-        )->setMaxResults(self::PAGINATOR_PER_PAGE)
+                'SELECT ps, p
+                FROM App\Entity\Product\Product p
+                LEFT JOIN Roma\SyliusProductVariantPlugin\Entity\ProductStock ps'
+            )->setMaxResults(self::PAGINATOR_PER_PAGE)
             ->setFirstResult($offset);
 
-        if(!empty($status))$query->setParameter('stockStatus', $status);
+        if(!empty($status)){
+            $query->setParameter('stockStatus', $status)->where( 'ps.stockStatus = :stockStatus ');
+        };
 
+        dd($query);
         return new Paginator($query);
     }
 //    public function __construct(ManagerRegistry $registry)
