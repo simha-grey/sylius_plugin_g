@@ -14,7 +14,7 @@ final class ProductManagementController
     /** @var Environment */
     private $twig;
 
-    public const TEMPLATE = '@RomaSyliusProductVariantPlugin/src/Templates/ProductManagement/show.html.twig';
+    public const TEMPLATE = '@RomaSyliusProductVariantPlugin/show.html.twig';
 
     public function __construct(Environment $twig)
     {
