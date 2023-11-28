@@ -21,7 +21,7 @@ class ProductStockRepository extends EntityRepository
     public function getProductStock(int $offset, int $status): Paginator
     {
 
-        $where_closure =  ' WHERE TRUE '  . !empty($status) ? ' AND ps.stockStatus = :stockStatus ' : ' ';
+        $where_closure =  ' WHERE TRUE '  .( !empty($status) ? ' AND ps.stockStatus = :stockStatus ' : ' ');
         $query = $this->getEntityManager()->createQuery(
             'SELECT ps, p
             FROM App\Entity\Product\Product p
