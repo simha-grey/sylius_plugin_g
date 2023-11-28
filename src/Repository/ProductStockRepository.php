@@ -21,11 +21,11 @@ class ProductStockRepository extends EntityRepository
     public function getProductStock(int $offset, int $status): Paginator
     {
 
-        $where_closure = !empty($status) ? ' ps.stockStatus = :stockStatus ' : ' ';
+        $where_closure =  ' WHERE TRUE '  . !empty($status) ? ' AND ps.stockStatus = :stockStatus ' : ' ';
         $query = $this->getEntityManager()->createQuery(
             'SELECT ps, p
             FROM Roma\SyliusProductVariantPlugin\Entity\ProductStock ps
-            INNER JOIN ps.product p
+            RIGHT JOIN ps.product p
             '.$where_closure
         )->setMaxResults(self::PAGINATOR_PER_PAGE)
         ->setFirstResult($offset);
