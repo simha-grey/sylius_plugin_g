@@ -3,7 +3,7 @@
 namespace Roma\SyliusProductVariantPlugin\Repository;
 
 use Roma\SyliusProductVariantPlugin\Entity\ProductStock;
-//use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -34,10 +34,10 @@ class ProductStockRepository extends EntityRepository
 
         return new Paginator($query);
     }
-//    public function __construct(ManagerRegistry $registry)
-//    {
-//        parent::__construct($registry, ProductStock::class);
-//    }
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, ProductStock::class);
+    }
 //
 //    public function add(ProductStock $entity, bool $flush = false): void
 //    {
