@@ -1,0 +1,7 @@
+{% block body %}
+    <h2>Product Stock</h2>
+
+    {% for d in data %}
+        <p>{{ d.id }} {{ d.product_id }} {{ d.stockStatus }} {{ d.restockDate }}</p>
+    {% endfor %}
+{% endblock %}
