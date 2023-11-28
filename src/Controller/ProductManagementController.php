@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Roma\SyliusProductVariantPlugin\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Roma\SyliusProductVariantPlugin\Repository\ProductStockRepository;
 use Twig\Environment;
 
 final class ProductManagementController
