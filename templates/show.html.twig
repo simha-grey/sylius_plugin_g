@@ -1,7 +1,7 @@
 {% block body %}
     <h2>Product Stock</h2>
     {% if data|length > 0 %}
-    <div>There are {{ data|length }} comments.</div>
+    <div>There are {{ data|length }} products.</div>
         {% for d in data %}
             {# hydrated data from doctrine join. Must switch from one entity type to another #}
             {% if loop.index0 is even %}
@@ -16,7 +16,7 @@
         {% if previous >= 0 %}
             <a href="{{ path('roma_product_management_show', { status: status, offset: previous }) }}">Previous</a>
         {% endif %}
-        {% if next < comments|length %}
+        {% if next < data|length %}
             <a href="{{ path('roma_product_management_show', { status: status, offset: next }) }}">Next</a>
         {% endif %}
     {% else %}
