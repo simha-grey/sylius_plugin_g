@@ -12,7 +12,7 @@ class ProductWithStockRepository extends BaseProductRepository implements Produc
     {
         $query= $this->createQueryBuilder('p')
             ->addSelect('ps')
-            ->leftJoin('ProductStock','ps')
+            ->leftJoin('Roma\SyliusProductVariantPlugin\Entity\ProductStock','ps')
             ->setMaxResults(self::PAGINATOR_PER_PAGE)
             ->getQuery()
             ->setFirstResult($offset);
