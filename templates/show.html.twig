@@ -1,14 +1,25 @@
 {% block body %}
     <h2>Product Stock</h2>
-    {% for d in data %}
-        {# hydrated data from doctrine join. Must switch from one entity type to another #}
-        {% if loop.index0 is even %}
-            <p> {{ d.id }} {{ d.code }}
-        {% else %}
-            {% if d is not null %}
-                {{ d.product }} {{ d.stockStatus }} {{ d.restockDate|format_datetime('medium', 'short') }}
+    {% if data|length > 0 %}
+    <div>There are {{ data|length }} comments.</div>
+        {% for d in data %}
+            {# hydrated data from doctrine join. Must switch from one entity type to another #}
+            {% if loop.index0 is even %}
+                <p> {{ d.id }} {{ d.code }}
+            {% else %}
+                {% if d is not null %}
+                   {{ d.stockStatus }} {{ d.restockDate|format_datetime('medium', 'short') }}
+                {% endif %}
+                </p>
             {% endif %}
-            </p>
+        {% endfor %}
+        {% if previous >= 0 %}
+            <a href="{{ path('roma_product_management_show', { status: status, offset: previous }) }}">Previous</a>
         {% endif %}
-    {% endfor %}
+        {% if next < comments|length %}
+            <a href="{{ path('roma_product_management_show', { status: status, offset: next }) }}">Next</a>
+        {% endif %}
+    {% else %}
+        <div>No products.</div>
+    {% endif %}
 {% endblock %}

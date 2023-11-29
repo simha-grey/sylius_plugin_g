@@ -25,10 +25,11 @@ final class ProductManagementController
     {
         $offset = max(0, $request->query->getInt('offset', 0));
         $status = max(0, $request->query->getInt('status', 0));
-        $paginator = $ProductWithStockRepository->findAllProductWithStock($offset, $status);
+        $paginator = $ProductWithStockRepository->getProductWithStockPaginator($offset, $status);
 
         return new Response($this->twig->render(self::TEMPLATE,[
             'data' => $paginator,
+            'status' => $status,
             'previous' => $offset - ProductWithStockRepository::PAGINATOR_PER_PAGE,
             'next' => min(count($paginator), $offset + ProductWithStockRepository::PAGINATOR_PER_PAGE),
         ]));

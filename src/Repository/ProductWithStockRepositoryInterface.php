@@ -6,5 +6,5 @@ use Sylius\Component\Core\Repository\ProductRepositoryInterface as BaseProductRe
 use Doctrine\ORM\Tools\Pagination\Paginator;
 interface ProductWithStockRepositoryInterface extends BaseProductRepositoryInterface
 {
-    public function findAllProductWithStock(int $offset, int $status): Paginator;
+    public function getProductWithStockPaginator(int $offset, int $status): Paginator;
 }

@@ -8,7 +8,7 @@ class ProductWithStockRepository extends BaseProductRepository implements Produc
 {
 
     public const PAGINATOR_PER_PAGE = 5;
-    public function findAllProductWithStock(int $offset, int $status): Paginator
+    public function getProductWithStockPaginator(int $offset, int $status): Paginator
     {
         $query= $this->createQueryBuilder('p')
             ->addSelect('ps')

@@ -1,7 +1,11 @@
 roma_product_management_show:
-    path: /product_management/show
+    path: /product_management/show/{offset}/{status}
     methods: [GET]
     defaults:
         _controller: roma.controller.product_management::show
         _sylius:
             template: "@RomaSyliusProductVariantPlugin/src/Templates/ProductManagement/show.html.twig"
+        offset: 0
+        status: 0
+        requirements:
+            status: [0,1,2]
