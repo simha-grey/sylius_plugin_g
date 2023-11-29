@@ -17,16 +17,6 @@ class ProductWithStockRepository extends BaseProductRepository implements Produc
             ->getQuery()
             ->setFirstResult($offset);
 
-//        if(!empty($status))$query->setParameter('stockStatus', $status);
-//        $where_closure =  ' WHERE TRUE '  . !empty($status) ? ' AND ps.stockStatus = :stockStatus ' : ' ';
-//        $query = $this->getEntityManager()->createQuery(
-//            'SELECT ps, p
-//            FROM Roma\SyliusProductVariantPlugin\Repository\ProductStock ps
-//            RIGHT JOIN ps.product p
-//            '.$where_closure
-//        )->setMaxResults(self::PAGINATOR_PER_PAGE)
-//            ->setFirstResult($offset);
-
         if(!empty($status)){
             $query->setParameter('stockStatus', $status)->where('ps.stockStatus > :stockStatus');
         }

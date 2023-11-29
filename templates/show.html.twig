@@ -1,7 +1,14 @@
 {% block body %}
     <h2>Product Stock</h2>
-
     {% for d in data %}
-        <p>{{ d.id }} {{ d.product }} {{ d.stockStatus }} {{ d.restockDate|format_datetime('medium', 'short') }}</p>
+        {# hydrated data from doctrine join. Must switch from one entity type to another #}
+        {% if loop.index0 is even %}
+            <p> {{ d.id }} {{ d.code }}
+        {% else %}
+            {% if d is not null %}
+                {{ d.product }} {{ d.stockStatus }} {{ d.restockDate|format_datetime('medium', 'short') }}
+            {% endif %}
+            </p>
+        {% endif %}
     {% endfor %}
 {% endblock %}
