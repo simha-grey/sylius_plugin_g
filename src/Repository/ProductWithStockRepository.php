@@ -3,12 +3,12 @@
 namespace Roma\SyliusProductVariantPlugin\Repository;
 
 use Sylius\Bundle\CoreBundle\Doctrine\ORM\ProductRepository as BaseProductRepository;
-
+use Doctrine\ORM\Tools\Pagination\Paginator;
 class ProductWithStockRepository extends BaseProductRepository implements ProductWithStockRepositoryInterface
 {
 
     public const PAGINATOR_PER_PAGE = 5;
-    public function findAllProductWithStock(int $offset, int $status): array
+    public function findAllProductWithStock(int $offset, int $status): Paginator
     {
         $query= $this->createQueryBuilder('p')
             ->addSelect('ps')
