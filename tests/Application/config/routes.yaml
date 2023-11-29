@@ -1,9 +1,0 @@
-roma_sylius_product_variant_shop:
-    resource: "@RomaSyliusProductVariantPlugin/config/shop_routing.yml"
-    prefix: /{_locale}
-    requirements:
-        _locale: ^[a-z]{2}(?:_[A-Z]{2})?$
-
-roma_sylius_product_variant_admin:
-    resource: "@RomaSyliusProductVariantPlugin/config/admin_routing.yml"
-    prefix: /admin
