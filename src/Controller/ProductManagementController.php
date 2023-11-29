@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Roma\SyliusProductVariantPlugin\Controller;
 
+use Roma\SyliusProductVariantPlugin\Repository\ProductWithStockRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Roma\SyliusProductVariantPlugin\Repository\ProductStockRepository;
 use Twig\Environment;
 
 final class ProductManagementController
@@ -21,16 +21,16 @@ final class ProductManagementController
         $this->twig = $twig;
     }
 
-    public function show(Request $request, ProductStockRepository $ProductStockRepository): Response
+    public function show(Request $request, ProductWithStockRepository $ProductWithStockRepository): Response
     {
         $offset = max(0, $request->query->getInt('offset', 0));
         $status = max(0, $request->query->getInt('status', 0));
-        $paginator = $ProductStockRepository->getProductStock($offset, $status);
+        $paginator = $ProductWithStockRepository->findAllProductWithStock($offset, $status);
 
         return new Response($this->twig->render(self::TEMPLATE,[
             'data' => $paginator,
-            'previous' => $offset - ProductStockRepository::PAGINATOR_PER_PAGE,
-            'next' => min(count($paginator), $offset + ProductStockRepository::PAGINATOR_PER_PAGE),
+            'previous' => $offset - ProductWithStockRepository::PAGINATOR_PER_PAGE,
+            'next' => min(count($paginator), $offset + ProductWithStockRepository::PAGINATOR_PER_PAGE),
         ]));
 
     }

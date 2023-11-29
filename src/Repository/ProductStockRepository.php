@@ -22,17 +22,16 @@ class ProductStockRepository extends EntityRepository
     {
 
         $query = $this->getEntityManager()->createQuery(
-                'SELECT ps, p
+            'SELECT  p, ps.product, ps.stockStatus
                 FROM App\Entity\Product\Product p
-                LEFT JOIN Roma\SyliusProductVariantPlugin\Entity\ProductStock ps'
-            )->setMaxResults(self::PAGINATOR_PER_PAGE)
+                LEFT JOIN Roma\SyliusProductVariantPlugin\Entity\ProductStock ps WITH p.id = ps.product'
+        )->setMaxResults(self::PAGINATOR_PER_PAGE)
             ->setFirstResult($offset);
 
         if(!empty($status)){
             $query->setParameter('stockStatus', $status)->where( 'ps.stockStatus = :stockStatus ');
-        };
+        }
 
-        dd($query);
         return new Paginator($query);
     }
 //    public function __construct(ManagerRegistry $registry)
