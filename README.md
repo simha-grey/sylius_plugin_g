@@ -5,7 +5,9 @@
 
 ```bash
 $  composer config repositories.0 git https://github.com/simha-grey/sylius_plugin_g/
+```
    or add to your Sylius shop composer.json
+```json
         "repositories": [{
             "type": "git",
             "url": "https://github.com/simha-grey/sylius_plugin_g/"
