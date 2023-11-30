@@ -53,5 +53,19 @@ final class ProductManagementController
         return $this->redirectToRoute('roma_product_management_show', ['offset' => $offset, 'status' => $status]);
 
     }
+    public function enable(Request $request, ProductStockRepository $ProductStockRepository): Response
+    {
+        $routeParams = $request->attributes->get('_route_params');
+        $offset = max(0, (int)$routeParams['offset']);
+        $status = max(0, (int)$routeParams['status']);
+        $id = (int)$routeParams['id'];
+        $entity = $ProductStockRepository->FindByProduct($id);
+
+        if($entity){
+            $ProductStockRepository->enable($entity,true);
+        }
+        return $this->redirectToRoute('roma_product_management_show', ['offset' => $offset, 'status' => $status]);
+
+    }
 
 }
