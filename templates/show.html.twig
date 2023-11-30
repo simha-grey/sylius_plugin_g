@@ -1,13 +1,13 @@
 {% block body %}
     <h2>Product Stock</h2>
     {% if status !=1 %}
-        <a href="{{ path('roma_product_management_show', { status: 2, offset: next }) }}">Disabled</a>
+        <a href="{{ path('roma_product_management_show', { status: 2, offset: 0 }) }}">Disabled</a>
     {% endif %}
     {% if status !=2 %}
-        <a href="{{ path('roma_product_management_show', { status: 1, offset: next }) }}">Enabled</a>
+        <a href="{{ path('roma_product_management_show', { status: 1, offset: 0 }) }}">Enabled</a>
     {% endif %}
     {% if status !=0 %}
-        <a href="{{ path('roma_product_management_show', { status: 0, offset: next }) }}">All</a>
+        <a href="{{ path('roma_product_management_show', { status: 0, offset: 0 }) }}">All</a>
     {% endif %}
     {% if data|length > 0 %}
         <div>There are {{ data|length }} products.</div>
