@@ -7,5 +7,6 @@ roma_product_management_show:
             template: "@RomaSyliusProductVariantPlugin/src/Templates/ProductManagement/show.html.twig"
         offset: 0
         status: 0
-        requirements:
-            status: [0,1,2]
+    requirements:
+        status: [0,1,2]
+        offset: '\d+'
