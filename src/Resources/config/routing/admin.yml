@@ -1,5 +1,5 @@
 roma_product_management_show:
-    path: /product_management/show/{offset}/{status}
+    path: /product_management/show/{status}/{offset}
     methods: [GET]
     defaults:
         _controller: roma.controller.product_management::show

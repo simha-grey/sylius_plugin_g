@@ -3,7 +3,7 @@
     {% if data|length > 0 %}
     <div>There are {{ data|length }} products.</div>
         {% for d in data %}
-            {# hydrated data from doctrine join. Must switch from one entity type to another #}
+            {# hydrated data from doctrine join. Switching from one entity type to another #}
             {% if loop.index0 is even %}
                 <p> {{ d.id }} {{ d.code }}
             {% else %}
