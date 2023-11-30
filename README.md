@@ -1,8 +1,8 @@
 ## Installation
 
 
- *We work on stable, supported, and up-to-date versions of packages. We recommend you do the same.*
- an ancient saying
+ >*We work on stable, supported, and up-to-date versions of packages. We recommend you do the same.*
+ <p>an ancient saying</p>
  
 1. Go to your Shop project directory. Run the following
 ```bash
@@ -51,8 +51,10 @@ roma_sylius_product_variant_plugin:
     resource: "@RomaSyliusProductVariantPlugin/src/Resources/config/routing.yml"
 ```
 
-5. Add a new migrations path in config/packages/doctrine_migrations.yaml 
+5. Add a new migrations path in config/packages/doctrine_migrations.yaml
+   ```php
     'Roma\Migrations': "%kernel.project_dir%/vendor/roma/sylius-product-variant-plugin/migrations/"
+   ```
    It must be a new subitem of migrations_paths: entry
    
 5. Finish the installation by updating the database schema and installing assets:
