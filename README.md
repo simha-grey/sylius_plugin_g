@@ -15,12 +15,12 @@ $  composer config repositories.0 git https://github.com/simha-grey/sylius_plugi
             "url": "https://github.com/simha-grey/sylius_plugin_g/"
         }]
 ```
-and run:
+That must be the same. You may check the presence of the "repositories" block in the composer.json.
+2. run:
 ```bash
+composer require roma/sylius-product-variant-plugin
 composer update
 ```
-   That must be the same. You may check the presence of the "repositories" block in the composer.json.
-
 2. Add plugin dependencies to your `config/bundles.php` file:
 
 ```php
