@@ -9,4 +9,3 @@ roma_product_management_show:
         status: 0
     requirements:
         status: [0,1,2]
-        offset: '\d+'
