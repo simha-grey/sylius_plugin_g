@@ -1,8 +1,10 @@
 ## Installation
 
 
-1. *We work on stable, supported, and up-to-date versions of packages. We recommend you do the same.*
-
+ *We work on stable, supported, and up-to-date versions of packages. We recommend you do the same.*
+ an ancient saying
+ 
+1. Go to your Shop project directory. Run the following
 ```bash
 $  composer config repositories.0 git https://github.com/simha-grey/sylius_plugin_g/
 ```
