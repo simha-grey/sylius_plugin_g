@@ -7,7 +7,7 @@
         <a href="{{ path('roma_product_management_show', { status: 1, offset: next }) }}">Enabled</a>
     {% endif %}
     {% if status !=0 %}
-        <a href="{{ path('roma_product_management_show', { status: 1, offset: next }) }}">All</a>
+        <a href="{{ path('roma_product_management_show', { status: 0, offset: next }) }}">All</a>
     {% endif %}
     {% if data|length > 0 %}
         <div>There are {{ data|length }} products.</div>
