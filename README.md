@@ -38,9 +38,8 @@ imports:
     
     - { resource: "@RomaSyliusProductVariantPlugin/src/Resources/config/config.yml" }
 ```
-   And also add the new repository for the sylius_product entity.
+   And also add the new repository for the sylius_product entity.   Please check the new repository entry in such code context:
 ```yaml
-   Please check the new repository entry in such code context:
    sylius_product:
     resources:
         product:
