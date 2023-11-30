@@ -16,12 +16,13 @@ $  composer config repositories.0 git https://github.com/simha-grey/sylius_plugi
         }]
 ```
 That must be the same. You may check the presence of the "repositories" block in the composer.json.
+
 2. run:
 ```bash
 composer require roma/sylius-product-variant-plugin
 composer update
 ```
-2. Add plugin dependencies to your `config/bundles.php` file:
+3. Add plugin dependencies to your `config/bundles.php` file:
 
 ```php
 return [
@@ -30,7 +31,7 @@ return [
 ];
 ```
 
-3. Import the required config in your `config/packages/_sylius.yaml` file:
+4. Import the required config in your `config/packages/_sylius.yaml` file:
 ```yaml
 imports:
     ...
@@ -48,7 +49,7 @@ imports:
                 repository: Roma\SyliusProductVariantPlugin\Repository\ProductWithStockRepository
 ```
 
-4. Import routing in your `config/routes.yaml` file:
+5. Import routing in your `config/routes.yaml` file:
 
 ```yaml
 roma_sylius_product_variant_plugin:
@@ -61,7 +62,7 @@ roma_sylius_product_variant_plugin:
    ```
    It must be a new subitem of migrations_paths: entry
    
-5. Finish the installation by updating the database schema and installing assets:
+6. Finish the installation by updating the database schema and installing assets:
 
 I tried only migrations:migrate. This is only for you info
 ```bash
