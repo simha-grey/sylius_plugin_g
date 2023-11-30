@@ -1,122 +1,66 @@
-<p align="center">
-    <a href="https://sylius.com" target="_blank">
-        <img src="https://demo.sylius.com/assets/shop/img/logo.png" />
-    </a>
-</p>
+## Installation
 
-<h1 align="center">Plugin Skeleton</h1>
 
-<p align="center">Skeleton for starting Sylius plugins.</p>
+1. *We work on stable, supported, and up-to-date versions of packages. We recommend you do the same.*
 
-## Documentation
+```bash
+$  composer config repositories.0 git https://github.com/simha-grey/sylius_plugin_g/
+   or add to your Sylius shop composer.json
+        "repositories": [{
+            "type": "git",
+            "url": "https://github.com/simha-grey/sylius_plugin_g/"
+        }]
+   That must be the same. You may check the presence of the "repositories" block at the composer.json.
+```
 
-For a comprehensive guide on Sylius Plugins development please go to Sylius documentation,
-there you will find the <a href="https://docs.sylius.com/en/latest/plugin-development-guide/index.html">Plugin Development Guide</a>, that is full of examples.
+2. Add plugin dependencies to your `config/bundles.php` file:
 
-## Quickstart Installation
+```php
+return [
+    ...
+    Roma\SyliusProductVariantPlugin\RomaSyliusProductVariantPlugin::class => ['all' => true],,
+];
+```
 
-### Traditional
+3. Import the required config in your `config/packages/_sylius.yaml` file:
+```yaml
+# config/packages/_sylius.yaml
 
-1. Run `composer create-project sylius/plugin-skeleton ProjectName`.
-
-2. From the plugin skeleton root directory, run the following commands:
-
-    ```bash
-    $ (cd tests/Application && yarn install)
-    $ (cd tests/Application && yarn build)
-    $ (cd tests/Application && APP_ENV=test bin/console assets:install public)
+imports:
+    ...
     
-    $ (cd tests/Application && APP_ENV=test bin/console doctrine:database:create)
-    $ (cd tests/Application && APP_ENV=test bin/console doctrine:schema:create)
-    ```
+    - { resource: "@RomaSyliusProductVariantPlugin/src/Resources/config/config.yml" }
+```
+   And also add the new repository for the sylius_product entity.
+   Please check the new repository entry in such code context:
+   sylius_product:
+    resources:
+        product:
+            classes:
+                model: App\Entity\Product\Product
+                repository: Roma\SyliusProductVariantPlugin\Repository\ProductWithStockRepository
 
-To be able to set up a plugin's database, remember to configure you database credentials in `tests/Application/.env` and `tests/Application/.env.test`.
+4. Import routing in your `config/routes.yaml` file:
 
-### Docker
+```yaml
 
-1. Execute `docker compose up -d`
+# config/routes.yaml
+...
 
-2. Initialize plugin `docker compose exec app make init`
+roma_sylius_product_variant_plugin:
+    resource: "@RomaSyliusProductVariantPlugin/src/Resources/config/routing.yml"
+```
 
-3. See your browser `open localhost`
+5. Add a new migrations path in config/packages/doctrine_migrations.yaml 
+    'Roma\Migrations': "%kernel.project_dir%/vendor/roma/sylius-product-variant-plugin/migrations/"
+   It must be a new subitem of migrations_paths: entry
+   
+5. Finish the installation by updating the database schema and installing assets:
 
-## Usage
+```
+$ bin/console cache:clear   >>> I didn't use it. May be. I used ...
+$ bin/console doctrine:migrations:migrate  >>> this one of course
+$ bin/console assets:install --symlink    >>> I didn't use it. May be.
+$ bin/console sylius:theme:assets:install --symlink  >>> I didn't use it. May be.
+```
 
-### Running plugin tests
-
-  - PHPUnit
-
-    ```bash
-    vendor/bin/phpunit
-    ```
-
-  - PHPSpec
-
-    ```bash
-    vendor/bin/phpspec run
-    ```
-
-  - Behat (non-JS scenarios)
-
-    ```bash
-    vendor/bin/behat --strict --tags="~@javascript"
-    ```
-
-  - Behat (JS scenarios)
- 
-    1. [Install Symfony CLI command](https://symfony.com/download).
- 
-    2. Start Headless Chrome:
-    
-      ```bash
-      google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1
-      ```
-    
-    3. Install SSL certificates (only once needed) and run test application's webserver on `127.0.0.1:8080`:
-    
-      ```bash
-      symfony server:ca:install
-      APP_ENV=test symfony server:start --port=8080 --dir=tests/Application/public --daemon
-      ```
-    
-    4. Run Behat:
-    
-      ```bash
-      vendor/bin/behat --strict --tags="@javascript"
-      ```
-    
-  - Static Analysis
-  
-    - Psalm
-    
-      ```bash
-      vendor/bin/psalm
-      ```
-      
-    - PHPStan
-    
-      ```bash
-      vendor/bin/phpstan analyse -c phpstan.neon -l max src/  
-      ```
-
-  - Coding Standard
-  
-    ```bash
-    vendor/bin/ecs check
-    ```
-
-### Opening Sylius with your plugin
-
-- Using `test` environment:
-
-    ```bash
-    (cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load)
-    (cd tests/Application && APP_ENV=test bin/console server:run -d public)
-    ```
-    
-- Using `dev` environment:
-
-    ```bash
-    (cd tests/Application && APP_ENV=dev bin/console sylius:fixtures:load)
-    (cd tests/Application && APP_ENV=dev bin/console server:run -d public)
-    ```
