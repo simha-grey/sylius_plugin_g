@@ -7,3 +7,17 @@ roma_product_management_show:
             template: "@RomaSyliusProductVariantPlugin/src/Templates/ProductManagement/show.html.twig"
         offset: 0
         status: 0
+roma_product_management_disable:
+    path: /product_management/disable/{id}
+    methods: [POST]
+    defaults:
+        _controller: roma.controller.product_management::disable
+        _sylius:
+            template: "@RomaSyliusProductVariantPlugin/src/Templates/ProductManagement/show.html.twig"
+roma_product_management_enable:
+    path: /product_management/disable/{id}
+    methods: [POST]
+    defaults:
+        _controller: roma.controller.product_management::enable
+        _sylius:
+            template: "@RomaSyliusProductVariantPlugin/src/Templates/ProductManagement/show.html.twig"

@@ -18,22 +18,63 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 class ProductStockRepository extends EntityRepository
 {
     public const PAGINATOR_PER_PAGE = 5;
-    public function getProductStock(int $offset, int $status): Paginator
+    public const PRODUCT_MISSING = 2;
+    public const PRODUCT_AVAILABLE = 1;
+    public const PRODUCT_ALL = 0;
+//    public function getProductStock(int $offset, int $status): Paginator
+//    {
+//
+//        $query = $this->getEntityManager()->createQuery(
+//            'SELECT  p, ps.product, ps.stockStatus
+//                FROM App\Entity\Product\Product p
+//                LEFT JOIN Roma\SyliusProductVariantPlugin\Entity\ProductStock ps WITH p.id = ps.product'
+//        )->setMaxResults(self::PAGINATOR_PER_PAGE)
+//            ->setFirstResult($offset);
+//
+//        if(!empty($status)){
+//            $query->setParameter('stockStatus', $status)->where( 'ps.stockStatus = :stockStatus ');
+//        }
+//
+//        return new Paginator($query);
+//    }
+
+    public function findByProduct($product_id): ?ProductStock
+    {
+        $result= $this->createQueryBuilder('ps')
+            ->where('ps.product_id=:product')
+            ->setParameter('product', $product_id)
+            ->getOne();
+
+        return $result;
+
+    }
+
+    public function disable(ProductStock $entity, bool $flush)
     {
 
-        $query = $this->getEntityManager()->createQuery(
-            'SELECT  p, ps.product, ps.stockStatus
-                FROM App\Entity\Product\Product p
-                LEFT JOIN Roma\SyliusProductVariantPlugin\Entity\ProductStock ps WITH p.id = ps.product'
-        )->setMaxResults(self::PAGINATOR_PER_PAGE)
-            ->setFirstResult($offset);
+        $entity
+            ->setStockStatus(self::PRODUCT_MISSING)
+            ->setRestockDate((new \DateTime())
+                ->modify('+2 week'));
 
-        if(!empty($status)){
-            $query->setParameter('stockStatus', $status)->where( 'ps.stockStatus = :stockStatus ');
-        }
+        $this->getEntityManager()->persist($entity);
 
-        return new Paginator($query);
+            if ($flush) {
+                $this->getEntityManager()->flush();
+            }
     }
+
+    public function enable(ProductStock $entity, bool $flush)
+    {
+
+        $entity->setStockStatus(self::PRODUCT_AVAILABLE);
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
 //    public function __construct(ManagerRegistry $registry)
 //    {
 //        parent::__construct($registry, ProductStock::class);

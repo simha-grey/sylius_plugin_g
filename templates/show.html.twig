@@ -1,5 +1,14 @@
 {% block body %}
     <h2>Product Stock</h2>
+    {% if status !=1 %}
+        <a href="{{ path('roma_product_management_show', { status: 2, offset: next }) }}">Disabled</a>
+    {% endif %}
+    {% if status !=2 %}
+        <a href="{{ path('roma_product_management_show', { status: 1, offset: next }) }}">Enabled</a>
+    {% endif %}
+    {% if status !=0 %}
+        <a href="{{ path('roma_product_management_show', { status: 1, offset: next }) }}">All</a>
+    {% endif %}
     {% if data|length > 0 %}
     <div>There are {{ data|length }} products.</div>
         {% for d in data %}
@@ -10,7 +19,12 @@
                 {% if d is not null %}
                    {{ d.stockStatus }} {{ d.restockDate|format_datetime('medium', 'short') }}
                 {% endif %}
-                </p>
+                {% if d.stockStatus ==2 || d is null%}
+                    <a href="{{ path('roma_product_management_enable', { id:d.id, status: status, offset: previous }) }}">Enable</a>
+                {% else %}
+                    <a href="{{ path('roma_product_management_disable', { id:d.id, status: status, offset: previous }) }}">Enable</a>
+                {%  endif %}
+                    </p>
             {% endif %}
         {% endfor %}
         {% if previous >= 0 %}
