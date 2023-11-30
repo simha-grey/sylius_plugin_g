@@ -23,8 +23,9 @@ final class ProductManagementController
 
     public function show(Request $request, ProductWithStockRepository $ProductWithStockRepository): Response
     {
-        $offset = max(0, $request->query->getInt('offset', 0));
-        $status = max(0, $request->query->getInt('status', 0));
+        $routeParams = $request->attributes->get('_route_params');
+        $offset = max(0, $routeParams['offset']);
+        $status = max(0, $routeParams['status']);
         $paginator = $ProductWithStockRepository->getProductWithStockPaginator($offset, $status);
 
         return new Response($this->twig->render(self::TEMPLATE,[
