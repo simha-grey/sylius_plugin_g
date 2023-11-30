@@ -10,21 +10,25 @@
         <a href="{{ path('roma_product_management_show', { status: 1, offset: next }) }}">All</a>
     {% endif %}
     {% if data|length > 0 %}
-    <div>There are {{ data|length }} products.</div>
+        <div>There are {{ data|length }} products.</div>
         {% for d in data %}
             {# hydrated data from doctrine join. Switching from one entity type to another #}
             {% if loop.index0 is even %}
-                <p> {{ d.id }} {{ d.code }}
+                {% set prod_id = d.id %}
+                <p> {{ prod_id }} {{ d.code }}
             {% else %}
                 {% if d is not null %}
-                   {{ d.stockStatus }} {{ d.restockDate|format_datetime('medium', 'short') }}
+                    {{ d.stockStatus }} {{ d.restockDate|format_datetime('medium', 'short') }}
                 {% endif %}
-                {% if d.stockStatus ==2 || d is null%}
-                    <a href="{{ path('roma_product_management_enable', { id:d.id, status: status, offset: previous }) }}">Enable</a>
+                {% if ( (d is null) or (d.stockStatus == 2) ) %}
+{#                    to be continued Ajax request may be! #}
+{#                    <a href="{{ path('roma_product_management_enable', { id:prod_id, status: status, offset: previous }) }}">Enable</a>#}
+                    <button type="button">Enable!</button>
                 {% else %}
-                    <a href="{{ path('roma_product_management_disable', { id:d.id, status: status, offset: previous }) }}">Enable</a>
+{#                    <a href="{{ path('roma_product_management_disable', { id:d.id, status: status, offset: previous }) }}">Enable</a>#}
+                    <button type="button">Disable!</button>
                 {%  endif %}
-                    </p>
+                </p>
             {% endif %}
         {% endfor %}
         {% if previous >= 0 %}
