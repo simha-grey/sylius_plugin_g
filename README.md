@@ -55,13 +55,25 @@ roma_sylius_product_variant_plugin:
     resource: "@RomaSyliusProductVariantPlugin/src/Resources/config/routing.yml"
 ```
 
-5. Add a new migrations path in config/packages/doctrine_migrations.yaml
+6. In `config/packages/sylius_resource.yaml` file provide a new resource like this:
+
+```yaml
+sylius_resource:
+    resources:
+        roma.productstock:
+            driver: doctrine/orm # You can use also different driver here
+            classes:
+                model: Roma\SyliusProductVariantPlugin\Entity\ProductStock
+                repository: Roma\SyliusProductVariantPlugin\Repository\ProductStockRepository
+```
+
+7. Add a new migrations path in config/packages/doctrine_migrations.yaml
    ```php
     'Roma\Migrations': "%kernel.project_dir%/vendor/roma/sylius-product-variant-plugin/migrations/"
    ```
    It must be a new subitem of migrations_paths: entry
    
-6. Finish the installation by updating the database schema and installing assets:
+8. Finish the installation by updating the database schema and installing assets:
 
 I tried only migrations:migrate. This is only for you info
 ```bash
