@@ -22,12 +22,14 @@ class ProductStockRepository extends EntityRepository
     public const PRODUCT_AVAILABLE = 1;
     public const PRODUCT_ALL = 0;
 
-    public function findByProduct($product_id): ?ProductStock
+    public function findByProduct($id): ?ProductStock
     {
-        $result= $this->createQueryBuilder('ps')
-            ->where('ps.product_id=:product')
-            ->setParameter('product', $product_id)
-            ->getOne();
+        $result= $this->createQueryBuilder('p')
+            ->where('p.id=:product')
+            ->setParameter('product', $id)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
 
         return $result;
 
@@ -43,9 +45,9 @@ class ProductStockRepository extends EntityRepository
 
         $this->getEntityManager()->persist($entity);
 
-            if ($flush) {
-                $this->getEntityManager()->flush();
-            }
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
     }
 
     public function enable(ProductStock $entity, bool $flush)

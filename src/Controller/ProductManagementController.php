@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Roma\SyliusProductVariantPlugin\Controller;
 
 use Roma\SyliusProductVariantPlugin\Repository\ProductWithStockRepository;
+use Roma\SyliusProductVariantPlugin\Repository\ProductStockRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Twig\Environment;
@@ -42,29 +43,30 @@ final class ProductManagementController
     public function disable(Request $request, ProductStockRepository $ProductStockRepository): Response
     {
         $routeParams = $request->attributes->get('_route_params');
-        $offset = max(0, (int)$routeParams['offset']);
-        $status = max(0, (int)$routeParams['status']);
+//        $offset = max(0, (int)$routeParams['offset']);
+//        $status = max(0, (int)$routeParams['status']);
         $id = (int)$routeParams['id'];
         $entity = $ProductStockRepository->FindByProduct($id);
 
         if($entity){
             $ProductStockRepository->disable($entity,true);
         }
-        return $this->redirectToRoute('roma_product_management_show', ['offset' => $offset, 'status' => $status]);
-
+        //return $this->redirectToRoute('roma_product_management_show', ['offset' => $offset, 'status' => $status]);
+        return new Response('success');
     }
     public function enable(Request $request, ProductStockRepository $ProductStockRepository): Response
     {
         $routeParams = $request->attributes->get('_route_params');
-        $offset = max(0, (int)$routeParams['offset']);
-        $status = max(0, (int)$routeParams['status']);
+//        $offset = max(0, (int)$routeParams['offset']);
+//        $status = max(0, (int)$routeParams['status']);
         $id = (int)$routeParams['id'];
         $entity = $ProductStockRepository->FindByProduct($id);
 
         if($entity){
             $ProductStockRepository->enable($entity,true);
         }
-        return $this->redirectToRoute('roma_product_management_show', ['offset' => $offset, 'status' => $status]);
+        return new Response('success');
+        //return $this->redirectToRoute('roma_product_management_show', ['offset' => $offset, 'status' => $status]);
 
     }
 

@@ -15,7 +15,7 @@ roma_product_management_disable:
         _sylius:
             template: "@RomaSyliusProductVariantPlugin/src/Templates/ProductManagement/show.html.twig"
 roma_product_management_enable:
-    path: /product_management/disable/{id}
+    path: /product_management/enable/{id}
     methods: [POST]
     defaults:
         _controller: roma.controller.product_management::enable
