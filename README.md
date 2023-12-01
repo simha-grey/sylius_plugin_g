@@ -75,7 +75,7 @@ sylius_resource:
    
 8. Finish the installation by updating the database schema and installing assets:
 
-I tried only migrations:migrate. This is only for you info
+I did only migrations:migrate. Others are up to you
 ```bash
 $ bin/console cache:clear   
 $ bin/console doctrine:migrations:migrate  
