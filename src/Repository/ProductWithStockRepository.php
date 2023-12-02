@@ -23,4 +23,5 @@ class ProductWithStockRepository extends BaseProductRepository implements Produc
 
         return new Paginator($qb);
     }
+
 }

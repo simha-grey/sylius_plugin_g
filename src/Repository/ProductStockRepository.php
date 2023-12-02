@@ -3,7 +3,6 @@
 namespace Roma\SyliusProductVariantPlugin\Repository;
 
 use Roma\SyliusProductVariantPlugin\Entity\ProductStock;
-//use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -25,11 +24,11 @@ class ProductStockRepository extends EntityRepository
     public function findByProduct($id): ?ProductStock
     {
         $result= $this->createQueryBuilder('p')
-            ->where('p.id=:product')
+            ->where('p.product=:product')
             ->setParameter('product', $id)
             ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult();
 
         return $result;
 

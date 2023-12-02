@@ -4,14 +4,27 @@
     <script>
         function Data(str, el)
         {
-            shop_url = '/admin/product_management/'+ str + '/' + el.id
-
-            const xhttp = new XMLHttpRequest();
-            xhttp.onload = function(string, el) {
-                el.text('done');
+            if(str !== 'enable' && str !== 'disable'){
+                return
             }
+            const shop_url = '/admin/product_management/' + str + '/' + el.id;
+            const xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function()
+            {
+                if (xhttp.readyState == 4 && xhttp.status == 200)
+                {
+                    if(str === 'disable'){
+                        document.getElementById(el.id).innerHTML='Disabled!';
+                    }else{
+                        document.getElementById(el.id).innerHTML='Enabled!';
+                    }
+                }
+            };
+
             xhttp.open("POST", shop_url);
             xhttp.send();
+
         }
     </script>
 </head>
@@ -39,7 +52,6 @@
                 {{ d.stockStatus }} {{ d.restockDate|format_datetime('medium', 'short') }}
             {% endif %}
             {% if ( (d is null) or (d.stockStatus == 2) ) %}
-                {#                    to be continued Ajax request may be! #}
                 {#                    <a href="{{ path('roma_product_management_enable', { id:prod_id, status: status, offset: previous }) }}">Enable</a>#}
                 <button id="{{ prod_id }} " type="button" onclick="Data('enable', this)">Enable!</button>
             {% else %}

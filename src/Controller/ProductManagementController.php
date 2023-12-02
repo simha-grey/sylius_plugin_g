@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Roma\SyliusProductVariantPlugin\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Roma\SyliusProductVariantPlugin\Entity\ProductStock;
+use App\Entity\Product\Product;
 use Roma\SyliusProductVariantPlugin\Repository\ProductWithStockRepository;
 use Roma\SyliusProductVariantPlugin\Repository\ProductStockRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,11 +18,15 @@ final class ProductManagementController
     /** @var Environment */
     private $twig;
 
+    /** @var EntityManagerInterface */
+    private $entityManager;
+
     public const TEMPLATE = '@RomaSyliusProductVariantPlugin/show.html.twig';
 
-    public function __construct(Environment $twig)
+    public function __construct(Environment $twig,EntityManagerInterface $entityManager)
     {
         $this->twig = $twig;
+        $this->entityManager = $entityManager;
     }
 
     public function show(Request $request, ProductWithStockRepository $ProductWithStockRepository): Response
@@ -40,33 +47,51 @@ final class ProductManagementController
 
     }
 
-    public function disable(Request $request, ProductStockRepository $ProductStockRepository): Response
+    public function disable(Request $request): Response
     {
         $routeParams = $request->attributes->get('_route_params');
-//        $offset = max(0, (int)$routeParams['offset']);
-//        $status = max(0, (int)$routeParams['status']);
         $id = (int)$routeParams['id'];
-        $entity = $ProductStockRepository->FindByProduct($id);
+        $EntityManager = $this->entityManager;
+        $ProductStockRepository = $EntityManager->getRepository(ProductStock::class);
+        $stock = $ProductStockRepository->findOneBy(['product' => $id]);
 
-        if($entity){
-            $ProductStockRepository->disable($entity,true);
+        if(!$stock){
+            return  (new Response("Gone"))->setStatusCode(Response::HTTP_GONE);;
         }
-        //return $this->redirectToRoute('roma_product_management_show', ['offset' => $offset, 'status' => $status]);
+
+        //dd($stock);
+        $stock->setStockStatus(ProductStockRepository::PRODUCT_MISSING);
+        $stock->setRestockDate((new \DateTime())->modify('+2 week'));
+        $EntityManager->persist($stock);
+        $EntityManager->flush();
+
         return new Response('success');
     }
-    public function enable(Request $request, ProductStockRepository $ProductStockRepository): Response
+    public function enable(Request $request): Response
     {
-        $routeParams = $request->attributes->get('_route_params');
-//        $offset = max(0, (int)$routeParams['offset']);
-//        $status = max(0, (int)$routeParams['status']);
-        $id = (int)$routeParams['id'];
-        $entity = $ProductStockRepository->FindByProduct($id);
 
-        if($entity){
-            $ProductStockRepository->enable($entity,true);
+        $routeParams = $request->attributes->get('_route_params');
+        $id = (int)$routeParams['id'];
+        $EntityManager = $this->entityManager;
+        $ProductStockRepository = $EntityManager->getRepository(ProductStock::class);
+        $ProductWithStockRepository = $EntityManager->getRepository(Product::class);
+        $stock = $ProductStockRepository->findOneBy(['product' => $id]);
+
+        if(!$stock){
+            $product = $ProductWithStockRepository->find($id);
+            if(!$product){
+                return  (new Response("Gone"))->setStatusCode(Response::HTTP_GONE);;
+            }
+            $stock = new ProductStock();
+            $stock->setProduct($product);
         }
+
+        $stock->setStockStatus(ProductStockRepository::PRODUCT_AVAILABLE);
+
+        $EntityManager->persist($stock);
+        $EntityManager->flush();
+
         return new Response('success');
-        //return $this->redirectToRoute('roma_product_management_show', ['offset' => $offset, 'status' => $status]);
 
     }
 
