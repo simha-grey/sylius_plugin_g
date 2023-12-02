@@ -1,14 +1,19 @@
-## Installation
-
-
  >*We work on stable, supported, and up-to-date versions of packages. We recommend you do the same.*
  <p>an ancient saying</p>
+ 
+It's an unfinished project of a plugin for the Sylius eCommerce platform. It's a sandbox for myself, and a test task with certain requirements. 
 
-
-It's an unfinished project of plugin for Sylius eCommerce platform. It's sandbox for myself, and test task with certain requirements. 
 Rule #1 (You don’t talk about fight club.) Create entity "ProductStock" with properties "stockStatus" and "restockDate".
-As I think, It will be better to extend native "Product" entity with those properties, but I did with new entity. Maybe it was
-implicitly required do not touch "Product" entity at all. I followed this hint. Though some logic suffer.
+I think, It will be better to extend the native "Product" entity with those properties, but I did it with a new entity. Maybe it was
+implicitly required not to touch the " Product " entity. I followed this hint. Though some logic suffers.
+
+ ## Installation
+
+
+
+
+
+
  
 1. Go to your Shop project directory. Run the following
 ```bash
