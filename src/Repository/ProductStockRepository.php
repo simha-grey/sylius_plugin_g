@@ -34,31 +34,31 @@ class ProductStockRepository extends EntityRepository
 
     }
 
-    public function disable(ProductStock $entity, bool $flush)
-    {
-
-        $entity
-            ->setStockStatus(self::PRODUCT_MISSING)
-            ->setRestockDate((new \DateTime())
-                ->modify('+2 week'));
-
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function enable(ProductStock $entity, bool $flush)
-    {
-
-        $entity->setStockStatus(self::PRODUCT_AVAILABLE);
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
+//    public function disable(ProductStock $entity, bool $flush)
+//    {
+//
+//        $entity
+//            ->setStockStatus(self::PRODUCT_MISSING)
+//            ->setRestockDate((new \DateTime())
+//                ->modify('+2 week'));
+//
+//        $this->getEntityManager()->persist($entity);
+//
+//        if ($flush) {
+//            $this->getEntityManager()->flush();
+//        }
+//    }
+//
+//    public function enable(ProductStock $entity, bool $flush)
+//    {
+//
+//        $entity->setStockStatus(self::PRODUCT_AVAILABLE);
+//        $this->getEntityManager()->persist($entity);
+//
+//        if ($flush) {
+//            $this->getEntityManager()->flush();
+//        }
+//    }
 
 //    public function __construct(ManagerRegistry $registry)
 //    {
